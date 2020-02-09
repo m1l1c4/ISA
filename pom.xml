@@ -111,6 +111,14 @@
 	</dependencies>
 
 	<build>
+<<<<<<< HEAD
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+=======
 			<plugins>
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
@@ -120,6 +128,7 @@
 				
 				
 			</plugins>
+>>>>>>> d2d5a5c262e9a43d670d4c0765b29e8cb8d9ad91
 	</build>
 
 </project>
