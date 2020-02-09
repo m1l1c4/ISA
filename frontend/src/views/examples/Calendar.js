@@ -10,6 +10,7 @@ import axios from 'axios';
 import { NotificationManager } from "react-notifications";
 
 const localizer = momentLocalizer(moment)
+const url = 'https://clinical-center-tim31.herokuapp.com/'
 
 class MyCalendar extends Component {
     constructor(props)
@@ -27,7 +28,7 @@ class MyCalendar extends Component {
     let data = 1;
     axios({
       method: 'get',
-      url: 'http://localhost:8099/checkup/getCheckups/'+data,
+      url: url + 'checkup/getCheckups/'+data,
       headers: { "Authorization": AuthStr },
     }).then((response)=>{             
       let checkups = response.data;
@@ -99,7 +100,7 @@ class MyCalendar extends Component {
   cancelCheckup(id){
     axios({
       method: 'post',
-      url: 'http://localhost:8099/checkup/cancelCheckup/' + id ,             
+      url:url + 'checkup/cancelCheckup/' + id ,             
     }).then((response)=>{ 
       if (response.status !== 404)      
       NotificationManager.info('Pregled uspjesno otkazan', '');
@@ -109,7 +110,7 @@ class MyCalendar extends Component {
       let data = 1;
       axios({
         method: 'get',
-        url: 'http://localhost:8099/checkup/getCheckups/'+data,
+        url:url + 'checkup/getCheckups/'+data,
         headers: { "Authorization": AuthStr },
       }).then((response)=>{             
         let checkups = response.data;

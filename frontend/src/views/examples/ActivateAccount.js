@@ -28,6 +28,8 @@ import "../../../node_modules/react-notifications/lib/Notifications.js"
 // core components
 import ProfilePageHeader from 'components/Headers/ProfilePageHeader.js';
 
+const url = 'https://clinical-center-tim31.herokuapp.com/'
+
 class ActivateAccount extends Component {
   constructor(props)
   {
@@ -65,7 +67,7 @@ class ActivateAccount extends Component {
     let p = this.state.idUser ;
     axios({
       method: 'post',
-      url: 'http://localhost:8099/activateEmail/' + p ,      
+      url: url + 'activateEmail/' + p ,      
     }).then((response)=>{      
         if (response.status === 200)
           this.redirect();      

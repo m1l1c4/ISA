@@ -37,6 +37,7 @@ import {
 // core components
 import ExamplesNavbar from 'components/Navbars/ExamplesNavbar.js';
 import ProfilePageHeader from 'components/Headers/ProfilePageHeader.js';
+const url = 'https://clinical-center-tim31.herokuapp.com/'
 
 class MedicalWorkerPage extends Component {
   constructor(props)
@@ -119,7 +120,7 @@ class MedicalWorkerPage extends Component {
   this.setState({absenceStart:t, absenceEnd:t})
   axios({
     method: 'get',
-    url: 'http://localhost:8099/getMedicalWorker',
+    url:url + 'getMedicalWorker',
     headers: { "Authorization": AuthStr }   
   }).then((response)=>{
     console.log(response);
@@ -131,7 +132,7 @@ class MedicalWorkerPage extends Component {
 
     axios({
       method: 'get',
-      url: 'http://localhost:8099/getPatients',
+      url: url + 'getPatients',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -163,7 +164,7 @@ pristupiPacijentu(emailP, id, e){
  let AuthStr = 'Bearer '.concat(token);
  axios({
    method: 'get',
-   url: 'http://localhost:8099/canAccessToMedicalRecord',
+   url: url + 'canAccessToMedicalRecord',
    data: emailP,
    headers: { "Authorization": AuthStr }  ,
    ContentType: 'application/json',
@@ -220,7 +221,7 @@ if(brJBO=== undefined) {
     if(ok){
       axios({
         method: 'post',
-        url: 'http://localhost:8099/findPatients',
+        url: url + 'findPatients',
         headers: { "Authorization": AuthStr } ,
         data: params,
         ContentType: 'application/json',
@@ -282,7 +283,7 @@ traziPoJBO = () => {
   if(ok){
     axios({
       method: 'post',
-      url: 'http://localhost:8099/filterPatients' ,
+      url: url + 'filterPatients' ,
       data:pom,
       ContentType: 'application/json',
     }).then((response)=>{      
@@ -308,7 +309,7 @@ cancelSearchPatients = () => {
     let AuthStr = 'Bearer '.concat(token);
     axios({
       method: 'get',
-      url: 'http://localhost:8099/getPatients',
+      url: url + 'getPatients',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -376,7 +377,7 @@ cancelSearchPatients = () => {
 
     axios({
       method: 'post',
-      url: 'http://localhost:8099/updateMedicalWorker',
+      url: url + 'updateMedicalWorker',
       data: data
     }).then((response) => {
       console.log(response);
@@ -510,7 +511,7 @@ changePassword = event => {
 
     axios({
       method: 'post',
-      url: 'http://localhost:8099/changePassword',
+      url: url + 'changePassword',
       data: data,
       headers: { "Authorization": AuthStr } ,
       ContentType: 'application/json'
@@ -532,7 +533,7 @@ loadRecipes(){
   let AuthStr = 'Bearer '.concat(token);
   axios({
         method: 'get',
-        url: 'http://localhost:8099/getRecipes',    
+        url:url + 'getRecipes',    
         headers: { "Authorization": AuthStr }           
     }).then((response) => {
         console.log(response);
@@ -548,7 +549,7 @@ verify(id, e){
   let AuthStr = 'Bearer '.concat(token);
   axios({
       method: 'post',
-      url: 'http://localhost:8099/verifyRecipe/' + id ,
+      url: url + 'verifyRecipe/' + id ,
       headers: { "Authorization": AuthStr },
   }).then((response) => {
       console.log(response);
@@ -573,7 +574,7 @@ createAbsenceRequest = event => {
   }
   axios({
       method: 'post',
-      url: 'http://localhost:8099/vacationRequest',
+      url: url + 'vacationRequest',
       headers: { "Authorization": AuthStr },
       data: data
   }).then((response) => {

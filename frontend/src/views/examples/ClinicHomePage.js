@@ -41,6 +41,7 @@ import { withRouter } from "react-router-dom";
 // core components
 import ExamplesNavbar from 'components/Navbars/ExamplesNavbar.js';
 import ProfilePageHeader from 'components/Headers/ProfilePageHeader.js';
+const url = 'https://clinical-center-tim31.herokuapp.com/'
 
 class ClinicHomePage extends Component {
     constructor(props)
@@ -97,11 +98,11 @@ class ClinicHomePage extends Component {
   }
 
   getClinicDetails = () => {
-    let id = this.state.idClinic; 
+    const {id}=  this.props.match.params ;
     let AuthStr = 'Bearer ' + localStorage.getItem("ulogovan"); 
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getDetails/' + id , 
+      url:url + 'clinic/getDetails/' + id , 
       headers: { "Authorization": AuthStr } ,       
     }).then((response)=>{ 
       if (response.status !== 404)      
@@ -161,7 +162,7 @@ class ClinicHomePage extends Component {
 
     axios({
       method: 'post',
-      url: 'http://localhost:8099/checkup/bookQuickApp/' + quickId , 
+      url: url + 'checkup/bookQuickApp/' + quickId , 
       headers: { "Authorization": AuthStr } ,       
     }).then((response)=>{ 
       if (response.status === 200) {
@@ -193,10 +194,10 @@ class ClinicHomePage extends Component {
   }
 
   getAllDoctors = () => {
-    let param = this.state.idClinic
+    const {param} = this.props.match.params;
     axios({
       method: 'post',
-      url: 'http://localhost:8099/clinic/allDocsOneClinic/' + param      
+      url: url + 'clinic/allDocsOneClinic/' + param      
     }).then((response)=>{       
       this.setState({doctors: response.data, hideQuicks: true, hideDocs: false, hideDocSearch: true}) ;
       
@@ -209,7 +210,7 @@ class ClinicHomePage extends Component {
     let param = this.state.idClinic
     axios({
       method: 'post',
-      url: 'http://localhost:8099/checkup/getAllQuickApp/' + param      
+      url: url + 'checkup/getAllQuickApp/' + param      
     }).then((response)=>{  
       if (response.data !== null || response.data !== undefined || response.data !== [])   {
         this.setState({quicks: response.data, hideDocs: true, hideQuicks: false, hideDocSearch: true}) ;
@@ -226,11 +227,11 @@ class ClinicHomePage extends Component {
   getAllCheckupTypes = () => {
     let tipovi = []
     let i;
-    let id = this.state.idClinic ;
+    const {id} = this.props.match.params ;
 
    axios({
      method: 'get',
-     url: 'http://localhost:8099/checkUpType/allTypesOneClinic/' + id ,      
+     url:url + 'checkUpType/allTypesOneClinic/' + id ,      
    }).then((response)=>{  
      for (i=0 ; i < response.data.length ; i++) {
        tipovi.push(response.data[i].name)
@@ -256,7 +257,7 @@ class ClinicHomePage extends Component {
 
   axios({
     method: 'post',
-    url: 'http://localhost:8099/searchDoctors' ,
+    url: url + 'searchDoctors' ,
     data: parametri
   }).then((response)=>{       
     this.setState({doctors: response.data, srchClicked: true}) ;
@@ -275,7 +276,7 @@ class ClinicHomePage extends Component {
     niz.push(this.state.pretragaDatum)
     axios({
       method: 'post',
-      url: 'http://localhost:8099/clinic/getSelectedDoctor',
+      url:url + 'clinic/getSelectedDoctor',
       headers: { "Authorization": AuthStr } ,
       data: niz
     }).then((response)=>{      
@@ -345,7 +346,7 @@ class ClinicHomePage extends Component {
 
     axios({
       method: 'post',
-      url: 'http://localhost:8099/checkup/checkupRequest' ,
+      url: url + 'checkup/checkupRequest' ,
       headers: { "Authorization": AuthStr }  ,
       data: checkup     
     }).then((response)=>{  

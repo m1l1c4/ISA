@@ -36,6 +36,7 @@ import {
 // core components
 import ExamplesNavbar from 'components/Navbars/ExamplesNavbar.js';
 import ProfilePageHeader from 'components/Headers/ProfilePageHeader.js';
+const url = 'https://clinical-center-tim31.herokuapp.com/'
 
 class CodebookPage extends Component {
     constructor(props)
@@ -57,7 +58,7 @@ class CodebookPage extends Component {
     deleteCode(code, e){
         axios({
             method: 'post',
-            url: 'http://localhost:8099/codebook/' + code,
+            url:url + 'codebook/' + code,
             }).then((response) => {
                 console.log(response);
                 const items = this.state.codebook.filter(item => item.code !== code);
@@ -126,7 +127,7 @@ class CodebookPage extends Component {
             };        
             axios({
                 method: 'post',
-                url: 'http://localhost:8099/codebook',
+                url: url + 'codebook',
                 data: data,
                 ContentType: 'application/json'
                 }).then((response) => {
@@ -158,7 +159,7 @@ class CodebookPage extends Component {
   componentDidMount(){
     axios({
         method: 'get',
-        url: 'http://localhost:8099/codebook',       
+        url:url + 'codebook',       
     }).then((response) => {
         console.log(response);
         this.setState({codebook:response.data})

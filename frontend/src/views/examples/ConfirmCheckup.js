@@ -27,6 +27,7 @@ import "../../../node_modules/react-notifications/lib/notifications.css"
 import "../../../node_modules/react-notifications/lib/Notifications.js"
 // core components
 import ProfilePageHeader from 'components/Headers/ProfilePageHeader.js';
+const url = 'https://clinical-center-tim31.herokuapp.com/'
 
 class ConfirmCheckup extends Component {
   constructor(props)
@@ -71,7 +72,7 @@ class ConfirmCheckup extends Component {
       let p = this.state.idCheckup ;
     axios({
         method: 'get',
-        url: 'http://localhost:8099/checkup/' + p ,      
+        url: url + 'checkup/' + p ,      
       }).then((response)=>{      
           if (response.status === 200) {
               this.setState({date: response.data.date[2]+"/"+response.data.date[1]+"/"+response.data.date[0], 
@@ -91,7 +92,7 @@ class ConfirmCheckup extends Component {
     let p = this.state.idCheckup ;
     axios({
       method: 'post',
-      url: 'http://localhost:8099/checkup/scheduleCheckup/' + p ,      
+      url: url + 'checkup/scheduleCheckup/' + p ,      
     }).then((response)=>{      
         if (response.status === 200) {
           NotificationManager.success('Vas pregled je uspjesno zakazan!', 'Uspjesno!', 3000);
@@ -110,7 +111,7 @@ class ConfirmCheckup extends Component {
     let p = this.state.idCheckup ;
     axios({
       method: 'post',
-      url: 'http://localhost:8099/checkup/cancelCheckup/' + p ,      
+      url: url + 'checkup/cancelCheckup/' + p ,      
     }).then((response)=>{      
         if (response.status === 200) {
           NotificationManager.success('Uspjesno ste otkazali pregled!', 'Uspjesno!', 3000);

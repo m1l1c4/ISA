@@ -39,7 +39,7 @@ import ExamplesNavbar from 'components/Navbars/ExamplesNavbar.js';
 import ProfilePageHeader from 'components/Headers/ProfilePageHeader.js';
 import DemoFooter from 'components/Footers/DemoFooter.js';
 
-
+const url = 'https://clinical-center-tim31.herokuapp.com/'
 class Checkup extends Component {
     constructor(props) {
         super(props);
@@ -92,7 +92,8 @@ class Checkup extends Component {
               time: '10',
               room:{
                 number: 1,
-                name: 'Soba'
+                name: 'Soba',
+                hidePronadji: false
               },
               checkUpType: "TIP"
             }  
@@ -106,7 +107,7 @@ class Checkup extends Component {
       const {id} = this.props.match.params;
       axios({
         method: 'get',
-        url: 'http://localhost:8099/checkup/'+id,
+        url: url  + '/checkup/'+id,
       }).then((response)=>{
         console.log(response);
         this.setState({checkup:response.data})
@@ -204,7 +205,7 @@ class Checkup extends Component {
     loadRooms = () => {
         axios({
             method: 'get',
-            url: 'http://localhost:8099/clinic/getRooms/' + this.state.checkup.id,
+            url: url + 'clinic/getRooms/' + this.state.checkup.id,
           }).then((response) => {
             console.log(response);
             let all = response.data;
@@ -268,7 +269,7 @@ class Checkup extends Component {
   sendEmailToDoctor = () => {
     axios({
       method: 'post',
-      url: 'http://localhost:8099/notifyDoctor/' + this.state.checkup.id,
+      url: url + 'notifyDoctor/' + this.state.checkup.id,
       ContentType: 'application/json',
     }).then((response)=>{      
      // alert("USPJESNO email doktoru");
@@ -282,7 +283,7 @@ class Checkup extends Component {
   sendEmailToPatient = () => {
     axios({
       method: 'post',
-      url: 'http://localhost:8099/notifyPatient/' + this.state.checkup.id,
+      url: url + 'notifyPatient/' + this.state.checkup.id,
       ContentType: 'application/json',
     }).then((response)=>{      
      // alert("USPJESNO email pacijentu");
@@ -296,7 +297,7 @@ class Checkup extends Component {
   sendEmailDateChanged = () => {
     axios({
       method: 'post',
-      url: 'http://localhost:8099/changeDate/' + this.state.checkup.id,
+      url: url + 'changeDate/' + this.state.checkup.id,
       ContentType: 'application/json',
     }).then((response)=>{      
       //alert("USPJESNO datum promjenjen");
@@ -343,7 +344,7 @@ class Checkup extends Component {
       
       axios({
         method: 'get',
-        url: 'http://localhost:8099/clinic/roomAvailability/' +  room.id + '/' + datum[0] + '-' + mjesec + '-' + dan,
+        url: url + 'clinic/roomAvailability/' +  room.id + '/' + datum[0] + '-' + mjesec + '-' + dan,
       }).then((response)=>{       
         this.setState({slobodniTermini:response.data, izabraniTermin:response.data[0], selectedRoom:room})
         this.setState({showSale:false, selectedDate: datum[0] + '-' + datum[1] + '-' + datum[2]});
@@ -365,7 +366,7 @@ class Checkup extends Component {
     }
     axios({
       method: 'get',
-      url: 'http://localhost:8099/getAllAvailable/' + this.state.checkup.clinic.id + '/'+ datum[0] + '-' + mjesec + '-' + dan + '/' + this.state.izabraniTermin,
+      url: url + 'getAllAvailable/' + this.state.checkup.clinic.id + '/'+ datum[0] + '-' + mjesec + '-' + dan + '/' + this.state.izabraniTermin,
     }).then((response)=>{             
       this.setState({doctors:response.data})
       let doc = response.data;
@@ -407,17 +408,25 @@ class Checkup extends Component {
   
       axios({
         method: 'post',
-        url: 'http://localhost:8099/checkup/update',
+        url:url + 'checkup/update',
         data:data,
         ContentType: 'application/json',
       }).then((response)=>{      
-          if(this.state.checkup.type === 'OPERACIJA'){          
-            this.addDoctors();
-          }
-          else{
+        if(this.state.checkup.type === 'PREGLED'){
             this.sendEmailToDoctor();
-            this.props.history.push('/registration-request')
+            this.props.history.push('/registration-request');
+        }
+        else{
+          this.sendEmailToPatient(); 
+            this.sendEmailToDoctor();
+            let a = this.state.selectedRoom.firstFreeDate;
+          let b = this.state.checkup.date;
+          if(!(a[0] === b[0] && a[1] === b[1] && a[2] === b[2])){
+            this.sendEmailDateChanged();
           }
+            this.props.history.push('/registration-request')  
+        }
+
       },(error)=>{
        // alert("GRESKA");
         console.log(error);
@@ -425,24 +434,23 @@ class Checkup extends Component {
     }
      
     reserve(){
-        this.update();
+        if(this.state.checkup.type === 'PREGLED'){
+          this.update();
+        }
+        else{
+          this.addDoctors();
+        }
       }
     
       
       addDoctors(){
           axios({
             method: 'post',
-            url: 'http://localhost:8099/checkup/addDoctors/' + this.state.checkup.id,
+            url: url + 'checkup/addDoctors/' + this.state.checkup.id,
             data:this.state.selectedDoctors,
             ContentType: 'application/json',
           }).then((response)=>{
-            this.sendEmailToPatient(); 
-            let a = this.state.selectedRoom.firstFreeDate;
-          let b = this.state.checkup.date;
-          if(this.state.checkup.type === 'OPERACIJA' && !(a[0] === b[0] && a[1] === b[1] && a[2] === b[2])){
-            this.sendEmailDateChanged();
-          }
-            this.props.history.push('/registration-request')  
+            this.update();
           },(error)=>{
            // alert("DOKTOR ZAUZET");
             console.log(error);
@@ -505,7 +513,7 @@ class Checkup extends Component {
     
       axios({
         method: 'post',
-        url: 'http://localhost:8099/clinic/searchRooms' ,
+        url: url + 'clinic/searchRooms' ,
         headers: { "Authorization": AuthStr } ,
         data:pom,
         ContentType: 'application/json',
@@ -523,12 +531,15 @@ class Checkup extends Component {
   }
 }
 
+redirect3 = () =>{
+  this.props.history.push('/registration-request');
+}
+
   render() {
     return (
       <>
         <ExamplesNavbar logoutEvent={this.logoutUser}
                         hideKalendar={true}
-                        
                         hideNewWorker = {true}
                         hideNewQuick = {true}
                         hideReceipts = {true}
@@ -547,6 +558,7 @@ class Checkup extends Component {
                         sakrij = {true}
                         hideAllQuicksEvent = {true}                      
                         hideKarton = {true}
+                        showRegistrationRequests = {this.redirect3}
         />
                 <ProfilePageHeader />
                 <Alert hidden={this.state.showMessage}>{this.state.message}</Alert>
@@ -640,7 +652,7 @@ class Checkup extends Component {
                                 <FormGroup>
                                     <label>Tip pregleda: {this.state.checkup.checkUpType.name}</label>
                                 </FormGroup>
-                                <Button id = "findRoomE2E" block className="btn-round" color="info" onClick={() => {let datum = this.state.checkup.date; this.setState({showZakazivanje:true,showSale:true, datumRez:datum[0] + '-' + datum[1] + '-' + datum[2], tipSobeFiltriranje:this.state.checkup.type}); this.loadRooms()}} hidden={this.state.showSale}>
+                                <Button id = "findRoomE2E" block className="btn-round" color="info" onClick={() => {let datum = this.state.checkup.date; this.setState({showZakazivanje:true,showSale:true, hidePronadji:true, datumRez:datum[0] + '-' + datum[1] + '-' + datum[2], tipSobeFiltriranje:this.state.checkup.type}); this.loadRooms()}} hidden={this.state.hidePronadji}>
                                     Pronađi salu
                                 </Button>
                                 <div hidden = {this.state.selectedDate === ""}>
@@ -728,14 +740,13 @@ class Checkup extends Component {
                                             </div>
                                         </section>
                                         <div  className="col-sm-3">                                            
-                                            <Button block className="btn-round" color="info" onClick={(e) => this.setState({showSale:false})}>
+                                            <Button block className="btn-round" color="info" onClick={(e) => this.setState({showSale:false, hidePronadji:false})}>
                                                 Odustani
                                             </Button>
                                         </div>
                                     </div>
                             </Form>
                         </Col>
-
                     </Container>
                     <NotificationContainer/>
                 </div>

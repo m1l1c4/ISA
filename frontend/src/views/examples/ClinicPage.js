@@ -37,7 +37,8 @@ import ProfilePageHeader from 'components/Headers/ProfilePageHeader.js';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import "../../../node_modules/react-notifications/lib/notifications.css"
 import "../../../node_modules/react-notifications/lib/Notifications.js"
- 
+const url = 'https://clinical-center-tim31.herokuapp.com/'
+
 class ClinicPage extends Component {
     constructor(props)
     {
@@ -244,7 +245,7 @@ class ClinicPage extends Component {
  
             axios({
             method: 'post',
-            url: 'http://localhost:8099/clinic',
+            url: url + 'clinic',
             data: data ,
             ContentType: 'application/json'
             }).then((response) => {
@@ -252,7 +253,7 @@ class ClinicPage extends Component {
                 
                 axios({
                     method: 'post',
-                    url: 'http://localhost:8099/clinic/addRooms/'+response.data.id,
+                    url:url + 'clinic/addRooms/'+response.data.id,
                     data: this.state.rooms,
                     ContentType: 'application/json'
                 }).then((response) => {

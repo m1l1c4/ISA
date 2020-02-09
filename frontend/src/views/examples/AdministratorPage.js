@@ -32,7 +32,8 @@ import "../../../node_modules/react-notifications/lib/Notifications.js"
 
 const localizer = momentLocalizer(moment)
 
- 
+const url = 'https://clinical-center-tim31.herokuapp.com/'
+
 class AdministratorPage extends Component {
   constructor(props) {
     super(props);
@@ -196,7 +197,7 @@ class AdministratorPage extends Component {
         };        
         axios({
           method: 'post',
-          url: 'http://localhost:8099/clinic/changeRoom',
+          url: url + 'clinic/changeRoom',
           data: data,
           headers: { "Authorization": AuthStr }  
         }).then((response) => {
@@ -206,7 +207,7 @@ class AdministratorPage extends Component {
  
               axios({
                 method: 'get',
-                url: 'http://localhost:8099/clinic/getRooms',
+                url: url + 'clinic/getRooms',
                 headers: { "Authorization": AuthStr }  
               }).then((response) => {
                 console.log(response);
@@ -262,7 +263,7 @@ class AdministratorPage extends Component {
         };        
         axios({
           method: 'post',
-          url: 'http://localhost:8099/clinic/addRoom',
+          url: url + 'clinic/addRoom',
           data: data,
           headers: { "Authorization": AuthStr }  
         }).then((response) => {
@@ -277,7 +278,7 @@ class AdministratorPage extends Component {
           }
               axios({
                 method: 'get',
-                url: 'http://localhost:8099/clinic/getRooms',
+                url: url + 'clinic/getRooms',
                 headers: { "Authorization": AuthStr }  
               }).then((response) => {
                 console.log(response);
@@ -314,7 +315,7 @@ cijenaTipaValidacija(e) {
     let AuthStr = 'Bearer '.concat(token);
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getAllTypes',
+      url: url + 'clinic/getAllTypes',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -332,7 +333,7 @@ cijenaTipaValidacija(e) {
     let AuthStr = 'Bearer '.concat(token);
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getRooms',
+      url: url + 'clinic/getRooms',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -431,34 +432,6 @@ cijenaTipaValidacija(e) {
   traziPoBroju = () => {
         const items = this.state.dobavljeneSale.filter(room => room.number === parseInt(this.state.brojSaleFiltriranje));
         this.setState({ dobavljeneSale: items });
-        /*
-        let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
-        let pom = [];
-        pom.push(this.state.brojSaleFiltriranje);
-     
-        axios({
-          method: 'post',
-          url: 'http://localhost:8099/clinic/filterRooms' ,
-          headers: { "Authorization": AuthStr } ,
-          data:pom,
-          ContentType: 'application/json',
-        }).then((response)=>{      
-          if(response.status === 208)
-          this.setState({messageFilterSale: "Ne postoji trazena sala u klinici"})
-      else {
-        let pom = [];
-        this.setState({dobavljeneSale: []}) ;
-        for(let i =0; i<response.data.length; i++){
-              pom.push(response.data[i]);
-        }
-          this.setState({dobavljeneSale:pom}) ;
-          this.setState({messageFilterSale:"", showFiltriranjeSala:false})
-          }
-     
-        },(error)=>{
-          console.log(error);
-        });
-        */
   }
  
   cancelSearchDoctor = () => {
@@ -468,7 +441,7 @@ cijenaTipaValidacija(e) {
     let AuthStr = 'Bearer '.concat(token);
     axios({
       method: 'get',
-      url: 'http://localhost:8099/getAllDoctors',
+      url:url + 'getAllDoctors',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -530,7 +503,7 @@ cijenaTipaValidacija(e) {
    
         axios({
           method: 'post',
-          url: 'http://localhost:8099/checkUpType/addType',
+          url: url + 'checkUpType/addType',
           data: data,
           headers: { "Authorization": AuthStr }  
         }).then((response) => {
@@ -538,7 +511,7 @@ cijenaTipaValidacija(e) {
           console.log(response);
           axios({
             method: 'get',
-            url: 'http://localhost:8099/clinic/getAllTypes',
+            url: url + 'clinic/getAllTypes',
             headers: { "Authorization": AuthStr }  
           }).then((response) => {
             console.log(response);
@@ -565,7 +538,7 @@ cijenaTipaValidacija(e) {
  
     axios({
       method: 'get',
-      url: 'http://localhost:8099/checkup/getCheckups/'+roomId,
+      url: url + 'checkup/getCheckups/'+roomId,
       headers: { "Authorization": AuthStr },
     }).then((response)=>{             
       let checkups = response.data;
@@ -636,7 +609,7 @@ cijenaTipaValidacija(e) {
  
       axios({
         method: 'post',
-        url: 'http://localhost:8099/changePassword',
+        url: url + 'changePassword',
         data: data,
         headers: { "Authorization": AuthStr } ,
         ContentType: 'application/json'
@@ -698,14 +671,14 @@ cijenaTipaValidacija(e) {
    
     axios({
       method: 'post',
-      url: 'http://localhost:8099/checkUpType/deleteType/' + name,
+      url:url + 'checkUpType/deleteType/' + name,
       headers: { "Authorization": AuthStr }
     }).then((response) => {
       console.log(response);
       NotificationManager.success('Uspjesno brisanje tipa!', 'Uspjesno!', 3000);
       axios({
         method: 'get',
-        url: 'http://localhost:8099/clinic/getAllTypes',
+        url:url + 'clinic/getAllTypes',
         headers: { "Authorization": AuthStr }  
       }).then((response) => {
         console.log(response);
@@ -784,7 +757,7 @@ cijenaTipaValidacija(e) {
  
       axios({
         method: 'post',
-        url: 'http://localhost:8099/clinic/searchRooms' ,
+        url: url + 'clinic/searchRooms' ,
         headers: { "Authorization": AuthStr } ,
         data:pom,
         ContentType: 'application/json',
@@ -814,7 +787,7 @@ cijenaTipaValidacija(e) {
  
     axios({
       method: 'post',
-      url: 'http://localhost:8099/clinic/deleteRoom/' + broj,
+      url: url + 'clinic/deleteRoom/' + broj,
       headers: { "Authorization": AuthStr },
  
     }).then((response) => {
@@ -823,7 +796,7 @@ cijenaTipaValidacija(e) {
         NotificationManager.success('Uspjesno brisanje sobe!', 'Uspjesno!', 3000);
         axios({
           method: 'get',
-          url: 'http://localhost:8099/clinic/getRooms',
+          url:url + 'clinic/getRooms',
           headers: { "Authorization": AuthStr }  
         }).then((response) => {
           console.log(response);
@@ -855,7 +828,7 @@ cijenaTipaValidacija(e) {
  
     axios({
       method: 'post',
-      url: 'http://localhost:8099/deleteDoctor',
+      url:url + 'deleteDoctor',
       headers: { "Authorization": AuthStr },
       data:pom,
       ContentType: 'application/json',
@@ -866,7 +839,7 @@ cijenaTipaValidacija(e) {
       let AuthStr1 = 'Bearer '.concat(token1);
       axios({
         method: 'get',
-        url: 'http://localhost:8099/getAllDoctors',
+        url: url + 'getAllDoctors',
         headers: { "Authorization": AuthStr1 }  
       }).then((response) => {
         console.log(response);
@@ -925,7 +898,7 @@ cijenaTipaValidacija(e) {
     if(ok){
       axios({
         method: 'post',
-        url: 'http://localhost:8099/clinic/changeNameOfType',
+        url: url + 'clinic/changeNameOfType',
         headers: { "Authorization": AuthStr },
         data:params,
         ContentType: 'application/json',
@@ -936,7 +909,7 @@ cijenaTipaValidacija(e) {
         console.log(response);
         axios({
           method: 'get',
-          url: 'http://localhost:8099/clinic/getAllTypes',
+          url:url + 'clinic/getAllTypes',
           headers: { "Authorization": AuthStr }  
         }).then((response) => {
           console.log(response);
@@ -963,7 +936,7 @@ cijenaTipaValidacija(e) {
     this.setState({datum:ddatum, date:ddatum, datumRez:ddatum})
     axios({
       method: 'get' ,    
-      url: 'http://localhost:8099/getUser' ,          
+      url: url + 'getUser' ,          
       headers: { "Authorization": AuthStr }  
       }).then((response) => {
         if (response.data != null)
@@ -974,7 +947,7 @@ cijenaTipaValidacija(e) {
          
             axios({
               method: 'get',
-              url: 'http://localhost:8099/clinic/getClinics',
+              url: url + 'clinic/getClinics',
             }).then((response) => {
               console.log(response);
               this.setState({clinics:response.data})
@@ -996,7 +969,7 @@ cijenaTipaValidacija(e) {
  
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getAllTypes',
+      url: url + 'clinic/getAllTypes',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -1011,7 +984,7 @@ cijenaTipaValidacija(e) {
  
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getClinic',
+      url: url + 'clinic/getClinic',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -1024,7 +997,7 @@ cijenaTipaValidacija(e) {
    
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getRooms',
+      url: url + 'clinic/getRooms',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -1039,7 +1012,7 @@ cijenaTipaValidacija(e) {
    
     axios({
       method: 'get',
-      url: 'http://localhost:8099/getAdministrator',
+      url: url + 'getAdministrator',
       headers: { "Authorization": AuthStr }
     }).then((response) => {
       console.log(response);
@@ -1056,7 +1029,7 @@ cijenaTipaValidacija(e) {
     if(changeEvent.target.value === 'MEDICINAR' || changeEvent.target.value === 'ADMINISTRATOR'){
       axios({
         method: 'get',
-        url: 'http://localhost:8099/clinic/getClinics',
+        url: url + 'clinic/getClinics',
       }).then((response) => {
         console.log(response);
         this.setState({clinics:response.data})
@@ -1118,7 +1091,7 @@ cijenaTipaValidacija(e) {
  
       axios({
         method: 'post',
-        url: 'http://localhost:8099/updateAdministrator',
+        url:url + 'updateAdministrator',
         data: data,
         headers: { "Authorization": AuthStr } ,
         ContentType: 'application/json'
@@ -1320,31 +1293,6 @@ cijenaTipaValidacija(e) {
     else{
       this.setState({doktor:""})
     }
-    /*
-    axios({
-      method: 'get',
-      url: 'http://localhost:8099/clinic/getDoctors',
-      headers: { "Authorization": AuthStr }  
-    }).then((response) => {
-      console.log(response);
-       // this.setState({allDoctors:response.data})
-        let pom = [];
-        if(response.data.length > 0){
-          for(let i=0; i<response.data.length; i++){
-            if(response.data[i].type === this.state.tipTrenutni ){
-              pom.push(response.data[i]);
-            }
-          }
-          if(pom[0] != null){
-          this.setState({doktor:pom[0].user.email})
-            this.setState({allDoctors:pom})
-          }
-        }
-    }, (error) => {
-      console.log(error);
-    });
-    */
- 
   }
   salaValidacija(e){
     this.setState({salaTrenutna:e.target.value});
@@ -1516,7 +1464,7 @@ cijenaTipaValidacija(e) {
         let AuthStr = 'Bearer '.concat(token);
         axios({
           method: 'post',
-          url: 'http://localhost:8099/checkup/addAppointment',
+          url: url + 'checkup/addAppointment',
           data: data,
           headers: { "Authorization": AuthStr }  
         }).then((response) => {
@@ -1560,7 +1508,7 @@ cijenaTipaValidacija(e) {
 
       axios({
         method: 'post',
-        url: 'http://localhost:8099/clinic/searchOneType/' + parametar ,
+        url:url + 'clinic/searchOneType/' + parametar ,
         headers: { "Authorization": AuthStr } ,
         ContentType: 'application/json',
       }).then((response)=>{      
@@ -1627,7 +1575,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
  
     axios({
       method: 'post',
-      url: 'http://localhost:8099/findDoctors',
+      url: url + 'findDoctors',
       headers: { "Authorization": AuthStr } ,
       data: params,
       ContentType: 'application/json',
@@ -1733,7 +1681,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
  
         axios({
           method: 'post',
-          url: 'http://localhost:8099/addMedicalWorker',
+          url: url + 'addMedicalWorker',
           data: data,
           ContentType: 'application/json'
         }).then((response) => {
@@ -1746,7 +1694,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
                         let AuthStr = 'Bearer '.concat(token);
                         axios({
                           method: 'get',
-                          url: 'http://localhost:8099/getAllDoctors',
+                          url: url + 'getAllDoctors',
                           headers: { "Authorization": AuthStr }  
                         }).then((response) => {
                           console.log(response);
@@ -1772,7 +1720,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
         }
           axios({
             method: 'post',
-            url: 'http://localhost:8099/addAdmin',
+            url:url + 'addAdmin',
             data: data,
             ContentType: 'application/json'
           }).then((response) => {
@@ -1818,7 +1766,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
     let AuthStr = 'Bearer '.concat(token);
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getAllTypes',
+      url: url + 'clinic/getAllTypes',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -1834,7 +1782,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
     
     axios({
       method: 'get',
-      url: 'http://localhost:8099/getAllDoctors',
+      url: url + 'getAllDoctors',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -1853,7 +1801,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
     if(this.state.korisnik === 'ADMINISTRATOR'){
       axios({
         method: 'get',
-        url: 'http://localhost:8099/checkUpType/allTypes',
+        url: url + 'checkUpType/allTypes',
       }).then((response) => {
         console.log(response);
         this.setState({types: response.data});
@@ -1861,7 +1809,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
           this.setState({doctorType:response.data[0]});
           axios({
             method: 'get',
-            url: 'http://localhost:8099/clinic/getClinicsByType/' + response.data[0].name,
+            url: url + 'clinic/getClinicsByType/' + response.data[0].name,
           }).then((response) => {
             console.log(response);
             this.setState({clinics:response.data, selectedClinic:response.data[0].name})
@@ -1880,7 +1828,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
     this.setState({doctorType: e.target.value});  
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getClinicsByType/' + e.target.value,
+      url: url + 'clinic/getClinicsByType/' + e.target.value,
     }).then((response) => {
       console.log(response);
       this.setState({clinics:response.data, selectedClinic:response.data[0].name})
@@ -1904,7 +1852,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
     let AuthStr = 'Bearer '.concat(token);
     axios({
       method: 'get',
-      url: 'http://localhost:8099/getAllDoctors',
+      url: url + 'getAllDoctors',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
@@ -1915,7 +1863,7 @@ let AuthStr = 'Bearer '.concat(localStorage.getItem("ulogovan"));
  
     axios({
       method: 'get',
-      url: 'http://localhost:8099/clinic/getAllTypes',
+      url:url + 'clinic/getAllTypes',
       headers: { "Authorization": AuthStr }  
     }).then((response) => {
       console.log(response);
