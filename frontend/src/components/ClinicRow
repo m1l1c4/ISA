@@ -1,0 +1,36 @@
+class ClinicRow extends Component {
+    render() {
+        return (
+    <section class="bar pt-0" id="prikazPretrage" style="display:none;">
+            <div class="row">
+       <div  class="col-md-12">
+              <p class="text-muted lead">Rezultati pretrage za oglase</p>
+              <div class="box mt-0 mb-lg-0">
+                <div class="table-responsive">
+                  <table class="table table-hover" id="oglasiSrc">
+                    <thead>
+                      <tr>
+                        <th>Naziv</th>
+                        <th>Cena</th>
+                        <th>Opis</th>
+                        <th>Slika</th>
+                        <th>Datum postavljanja</th>
+                        <th>Datum isticanja</th>
+                        <th>Grad</th>
+                        <th>Status</th>
+                        <th>Lajkovi</th>
+                        <th>Dislajkovi</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>                   
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>    
+      </div>
+      </section>
+        )};
+}
